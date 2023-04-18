@@ -98,24 +98,28 @@ def upload_model():
     uploaded_file = request.files['file']
     filename = uploaded_file.filename
     file_path = os.path.join('model', filename)
-    if os.path.exists(file_path):
+    timestamp = str(int(time.time()))
+      
+    if os.path.exists('model/model.pkl'):
         # generate a new filename by appending a timestamp
-        timestamp = str(int(time.time()))
-        new_filename = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
-        os.rename(file_path, os.path.join('model', new_filename))
-        response= uploaded_file.save(file_path)
-      # return 'File uploaded successfully!'
-      # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-        # return jsonify({
-        #     "test": response
-        # })
-        if response != 'null':
+        new_filename2 = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
+        new_filename = f"{os.path.splitext('model.pkl')[0]}{os.path.splitext('model.pkl')[1]}"
+
+        response= uploaded_file.save('model/'+ new_filename)
+        response2= uploaded_file.save('model/'+ new_filename2)
+    else:
+
+        new_filename = f"{os.path.splitext('model.pkl')[0]}{os.path.splitext('model.pkl')[1]}"
+
+        response= uploaded_file.save( 'model/'+new_filename)
+    
+    if response != 'null':
           return jsonify({
             "Message": "uploaded sucesefully!",
             # Add this option to distinct the POST request
             "METHOD": "POST"
         })
-        else:
+    else:
           return jsonify({
             "ERROR": "not uploaded"
         })
