@@ -65,27 +65,33 @@ def search():
 @app.route('/uploadpatients', methods=['POST'])
 def uploadPatients():
     uploaded_file = request.files['file']
-    filename = uploaded_file.filename
-    file_path = os.path.join('data', filename)
-    if os.path.exists(file_path):
-        # generate a new filename by appending a timestamp
-        timestamp = str(int(time.time()))
-        new_filename = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
-        os.rename(file_path, os.path.join('data', new_filename))
-    response= uploaded_file.save(file_path)
-    # return 'File uploaded successfully!'
-    # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-    if response:
-        return jsonify({
-           
-            "Message": "uploaded sucesefully!",
-            # Add this option to distinct the POST request
-            "METHOD": "POST"
-        })
-    else:
-        return jsonify({
-            "ERROR": "not uploaded"
-        })
+    if uploaded_file != 'null':
+
+        filename = uploaded_file.filename
+        file_path = os.path.join('data', filename)
+        if os.path.exists(file_path):
+            # generate a new filename by appending a timestamp
+            timestamp = str(int(time.time()))
+            new_filename = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
+            os.rename(file_path, os.path.join('data', new_filename))
+            response= uploaded_file.save(file_path)
+        # return 'File uploaded successfully!'
+        # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
+            if response != 'null':
+              return jsonify({
+            
+                "Message": "uploaded sucesefully!",
+                # Add this option to distinct the POST request
+                "METHOD": "POST"
+              })
+            else:
+              return jsonify({
+                "ERROR": "not uploaded"
+              })
+        else:
+            return jsonify({
+                "ERROR": "bad request, file key"
+              })      
 
 @app.route('/uploadmodel', methods=['POST'])
 def upload_model():
@@ -97,18 +103,20 @@ def upload_model():
         timestamp = str(int(time.time()))
         new_filename = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
         os.rename(file_path, os.path.join('model', new_filename))
-    response= uploaded_file.save(file_path)
-    # return 'File uploaded successfully!'
-    # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-    if response:
-        return jsonify({
-           
+        response= uploaded_file.save(file_path)
+      # return 'File uploaded successfully!'
+      # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
+        # return jsonify({
+        #     "test": response
+        # })
+        if response != 'null':
+          return jsonify({
             "Message": "uploaded sucesefully!",
             # Add this option to distinct the POST request
             "METHOD": "POST"
         })
-    else:
-        return jsonify({
+        else:
+          return jsonify({
             "ERROR": "not uploaded"
         })
 
