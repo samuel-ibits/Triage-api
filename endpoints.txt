@@ -1,0 +1,5 @@
+/search -[get] passing the patient via url as patient
+/rank -[get] returns rank of new data passed
+/uploadpatients -[post] passing the data file saved as data
+/uploadmodel -[post] passing the model file saved as model
+/ -[get] root directory

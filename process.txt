@@ -1,0 +1,8 @@
+python -m venv venv/
+venv\Scripts\activate
+pip3 install gunicorn
+in .gitignore add
+  /venv
+install all stuffs you imported im your venv
+py app.py
+pip3 freeze > requirements.txt
