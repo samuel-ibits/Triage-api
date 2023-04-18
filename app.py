@@ -123,6 +123,6 @@ if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
     
     
-    port = 12345 
+    port = 5000
     # If you don't provide any port the port will be set to 12345
     app.run(threaded=True,port=port, debug= True)
