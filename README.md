@@ -3,7 +3,8 @@
 
 This api helps rank patients in the hospital based on severity of condition and state of emmergency as opposed to the first come first serve system
 
-model: 
+# model: 
+https://colab.research.google.com/drive/1KgTE6my8vAMfA1Vm0cqaX9VyaANL7O6p?usp=sharing#scrollTo=Z_4Kkxt0xmbH
 exposed route:
 
 # starting the api locally
