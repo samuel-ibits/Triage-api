@@ -65,33 +65,37 @@ def search():
 @app.route('/uploadpatients', methods=['POST'])
 def uploadPatients():
     uploaded_file = request.files['file']
-    if uploaded_file != 'null':
+    filename = uploaded_file.filename
+    file_path = os.path.join('data', filename)
+    timestamp = str(int(time.time()))
+    df=pd.read_csv(uploaded_file)
 
-        filename = uploaded_file.filename
-        file_path = os.path.join('data', filename)
-        if os.path.exists(file_path):
-            # generate a new filename by appending a timestamp
-            timestamp = str(int(time.time()))
-            new_filename = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
-            os.rename(file_path, os.path.join('data', new_filename))
-            response= uploaded_file.save(file_path)
-        # return 'File uploaded successfully!'
-        # You can add the test cases you made in the previous function, but in our case here you are just testing the POST functionality
-            if response != 'null':
-              return jsonify({
-            
-                "Message": "uploaded sucesefully!",
-                # Add this option to distinct the POST request
-                "METHOD": "POST"
-              })
-            else:
-              return jsonify({
-                "ERROR": "not uploaded"
-              })
-        else:
-            return jsonify({
-                "ERROR": "bad request, file key"
-              })      
+
+    if os.path.exists('model/model.pkl'):
+        # generate a new filename by appending a timestamp
+        new_filename2 = f"{os.path.splitext(filename)[0]}_{timestamp}{os.path.splitext(filename)[1]}"
+        new_filename = f"{os.path.splitext('data.pkl')[0]}{os.path.splitext('data.pkl')[1]}"
+
+        response= df.to_pickle('data/'+ new_filename)
+        response2= df.to_pickle('data/'+ new_filename2)
+    else:
+
+        new_filename = f"{os.path.splitext('data.pkl')[0]}{os.path.splitext('data.pkl')[1]}"
+
+        response= df.to_pickle( 'data/'+new_filename)
+    
+    if response != 'null':
+          return jsonify({
+            "Message": "uploaded sucesefully!",
+            # Add this option to distinct the POST request
+            "METHOD": "POST",
+            "Data":df.to_json()
+
+        })
+    else:
+          return jsonify({
+            "ERROR": "not uploaded"
+        })
 
 @app.route('/uploadmodel', methods=['POST'])
 def upload_model():
